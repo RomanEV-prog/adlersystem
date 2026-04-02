@@ -235,8 +235,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 0 2
 *{cursor:none!important}
 
 /* CUSTOM CURSOR */
-#cur-dot{position:fixed;width:8px;height:8px;background:#fff;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform 100ms ease,background 200ms ease,width 200ms ease,height 200ms ease;mix-blend-mode:difference}
-#cur-ring{position:fixed;width:38px;height:38px;border:1.5px solid rgba(59,130,246,.7);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width 350ms cubic-bezier(.22,1,.36,1),height 350ms cubic-bezier(.22,1,.36,1),border-color 300ms ease,opacity 300ms ease}
+#cur-dot{position:fixed;width:8px;height:8px;background:#fff;border-radius:50%;pointer-events:none;z-index:100001;transform:translate(-50%,-50%);transition:transform 100ms ease,background 200ms ease,width 200ms ease,height 200ms ease;mix-blend-mode:difference}
+#cur-ring{position:fixed;width:38px;height:38px;border:1.5px solid rgba(59,130,246,.7);border-radius:50%;pointer-events:none;z-index:100000;transform:translate(-50%,-50%);transition:width 350ms cubic-bezier(.22,1,.36,1),height 350ms cubic-bezier(.22,1,.36,1),border-color 300ms ease,opacity 300ms ease}
 body.cursor-hover #cur-dot{width:16px;height:16px;background:var(--c0)}
 body.cursor-hover #cur-ring{width:56px;height:56px;border-color:rgba(59,130,246,.4)}
 body.cursor-click #cur-dot{transform:translate(-50%,-50%) scale(.6)}
@@ -386,6 +386,26 @@ html.lenis{height:auto}
 .pc:hover{box-shadow:0 20px 60px rgba(0,0,0,.5)!important}
 .ic2-item{transition:border-color 250ms ease,box-shadow 250ms ease}
 .ic2-item:hover{border-color:var(--border2);box-shadow:0 8px 40px rgba(0,0,0,.3)}
+
+/* SCREENSHOT GALLERY */
+.ss-lbl{font-family:var(--fm);font-size:10px;color:var(--t2);letter-spacing:.12em;text-transform:uppercase;margin:22px 0 10px}
+.ss-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px}
+.ss-thumb{position:relative;overflow:hidden;border-radius:var(--r);border:1px solid var(--border);cursor:zoom-in;background:var(--bg1);transition:border-color var(--tr);aspect-ratio:16/10}
+.ss-thumb:hover{border-color:var(--border2)}
+.ss-thumb img{width:100%;height:100%;object-fit:cover;transition:transform 380ms ease;display:block}
+.ss-thumb:hover img{transform:scale(1.06)}
+.ss-thumb .ss-ov{position:absolute;inset:0;background:rgba(0,0,0,.52);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 180ms ease;font-size:20px;color:#fff;pointer-events:none}
+.ss-thumb:hover .ss-ov{opacity:1}
+/* LIGHTBOX */
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:99999;align-items:center;justify-content:center}
+#lb.on{display:flex}
+#lb-img{max-width:90vw;max-height:85vh;object-fit:contain;border-radius:var(--r);box-shadow:0 0 80px rgba(0,0,0,.8);display:block}
+#lb-close{position:absolute;top:14px;right:18px;background:var(--bg3);border:1px solid var(--border2);color:var(--t1);font-size:18px;cursor:pointer;width:36px;height:36px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
+#lb-close:hover{border-color:var(--c0);color:var(--c0)}
+#lb-prev,#lb-next{position:absolute;top:50%;transform:translateY(-50%);background:var(--bg3);border:1px solid var(--border2);color:var(--t1);font-size:22px;cursor:pointer;width:44px;height:44px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
+#lb-prev:hover,#lb-next:hover{border-color:var(--c0);color:var(--c0)}
+#lb-prev{left:14px}#lb-next{right:14px}
+#lb-info{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-family:var(--fm);font-size:10px;color:var(--t2);letter-spacing:.1em;background:var(--bg3);padding:4px 12px;border-radius:2px;border:1px solid var(--border);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -1146,6 +1166,12 @@ html.lenis{height:auto}
     <div class="lbl">Naši produkti</div>
     <h1 class="hd" style="font-size:clamp(38px,5.5vw,68px)">Sistemi, ki smo jih<br><span>zgradili sami</span></h1>
     <p class="sub">Adler Systems ne prodaja konceptov — prodaja sisteme, ki smo jih najprej zgradili za resnične operativne potrebe. Tu so naši lastni produkti v produkciji.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+      <span class="tag tag-b">RangeOS</span>
+      <span class="tag tag-g">Program za slaščičarno</span>
+      <span class="tag tag-b">Digitalni pregled povezav konektorjev</span>
+      <span class="tag tag-o">Vizualni pregled konektorjev</span>
+    </div>
   </div></div>
   <section class="sec">
     <div class="wrap">
@@ -1157,47 +1183,66 @@ html.lenis{height:auto}
         <div style="position:relative;z-index:1">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap">
             <span class="tag tag-b">Produkcija v teku</span>
-            <span class="tag tag-g">Industrijska platforma</span>
+            <span class="tag tag-g">Sistem za strelišče</span>
             <span class="tag tag-o">NFC dostop</span>
           </div>
           <h2 style="font-family:var(--fd);font-size:clamp(32px,4.5vw,54px);font-weight:800;letter-spacing:-.02em;margin-bottom:14px">RangeOS</h2>
-          <p style="font-size:15px;color:var(--t1);line-height:1.75;max-width:700px;margin-bottom:28px">Platforma za upravljanje proizvodnje, zgrajena na osnovi resničnih izkušenj iz industrijske proizvodnje. RangeOS pokriva celoten operativni cikel — od delovnih nalogov in sledenja do KQ pregledov, generiranja certifikatov in vidnosti v realnem času — z vgrajenim sistemom dostopa prek NFC kartic in obeskov.</p>
+          <p style="font-size:15px;color:var(--t1);line-height:1.75;max-width:700px;margin-bottom:28px">Celovit operativni sistem za upravljanje strelišča. RangeOS pokriva celoten obratovalni cikel — rezervacije prog, sprejem strelcev, blagajno z davčnim potrjevanjem (FURS), evidenco orožja in streliva, upravljanje trezorja, tekmovalno ligo, dostop z NFC karticami in poročila. Vse v enem sistemu, brez papirja.</p>
 
           <!-- NFC highlight -->
           <div style="background:var(--bg1);border:1px solid rgba(0,200,255,.18);border-radius:var(--rl);padding:26px;margin-bottom:26px">
             <div class="lbl" style="margin-bottom:12px">NFC dostop — kartica & obesek</div>
             <div class="g3" style="gap:18px">
               <div>
-                <div style="font-family:var(--fd);font-size:15px;font-weight:700;margin-bottom:7px;color:var(--t0)">Identifikacija operaterja</div>
-                <p style="font-size:12.5px;color:var(--t1);line-height:1.72">Vsak operater dobi NFC kartico ali obesek. Prijava v sistem, začetek delovnega naloga, potrditev KQ pregleda — vse z enim dotikom. Ni vnašanja gesel na produkcijskem odru.</p>
+                <div style="font-family:var(--fd);font-size:15px;font-weight:700;margin-bottom:7px;color:var(--t0)">Identifikacija z NFC</div>
+                <p style="font-size:12.5px;color:var(--t1);line-height:1.72">Vsak član dobi NFC kartico ali obesek. Prijava na strelišče, odpiranje vrat, prevzem orožja iz trezorja — vse z enim dotikom, brez vnašanja gesel.</p>
               </div>
               <div>
-                <div style="font-family:var(--fd);font-size:15px;font-weight:700;margin-bottom:7px;color:var(--t0)">Sledljivost po osebi</div>
-                <p style="font-size:12.5px;color:var(--t1);line-height:1.72">Vsak produkcijski dogodek je avtomatično pripisan točno določenemu operaterju in časovnem žigu. Revizijska sled je popolna, brez ročnega beleženja.</p>
+                <div style="font-family:var(--fd);font-size:15px;font-weight:700;margin-bottom:7px;color:var(--t0)">Upravljanje vrat</div>
+                <p style="font-size:12.5px;color:var(--t1);line-height:1.72">Sistem nadzoruje dostop do prostorov — kdo je vstopil, kdaj in s katero kartico. Revizijska sled vseh vstopov je vedno na voljo.</p>
               </div>
               <div>
                 <div style="font-family:var(--fd);font-size:15px;font-weight:700;margin-bottom:7px;color:var(--t0)">Dostop po vlogah</div>
-                <p style="font-size:12.5px;color:var(--t1);line-height:1.72">NFC kartica nosi vlogo — operater, inšpektor KQ, nadzornik, admin. Sistem samodejno prilagodi dostop in vidnost brez konfiguracije ob vsaki prijavi.</p>
+                <p style="font-size:12.5px;color:var(--t1);line-height:1.72">NFC kartica nosi vlogo — član, inštruktor, osebje, admin. Sistem samodejno prilagodi, kateri prostori in funkcije so dostopni.</p>
               </div>
             </div>
           </div>
 
           <!-- Module grid -->
-          <div class="lbl" style="margin-bottom:14px">Ključne zmogljivosti platforme</div>
+          <div class="lbl" style="margin-bottom:14px">Moduli sistema</div>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">
-            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Delovni nalogi</div>
-            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>KQ pregledi & NCR</div>
-            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Sledljivost (serije / S/N)</div>
-            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Generiranje certifikatov</div>
-            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>NFC dostop (kartica / obesek)</div>
-            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Dostop po vlogah (RBAC)</div>
-            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Nadzorna plošča v realnem času</div>
-            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Revizijska sled</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Rezervacije prog</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Walk-in (POS)</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Blagajna (FURS – ZOI/EOR)</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Člani / CRM</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Orožje (evidenca)</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Trezor (4-oči)</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Strelivo (FIFO zaloga)</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Liga (tekmovanja)</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Proge (upravljanje prog)</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>NFC dostop & Vrata</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Poročila (CSV izvozi)</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-family:var(--fd);font-size:12.5px;font-weight:600;color:var(--t1)"><div style="width:5px;height:5px;background:var(--c0);border-radius:50%;flex-shrink:0"></div>Skladnost (ZOro-1 / TOR)</div>
+          </div>
+
+          <!-- Posnetki zaslona -->
+          <div class="ss-lbl">Posnetki zaslona platforme</div>
+          <div class="ss-grid" id="ss-ros">
+            <div class="ss-thumb" onclick="openLB('ss-ros',0)"><img src="rangeos/rangeos-01.png" alt="RangeOS 1" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-ros',1)"><img src="rangeos/rangeos-02.png" alt="RangeOS 2" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-ros',2)"><img src="rangeos/rangeos-03.png" alt="RangeOS 3" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-ros',3)"><img src="rangeos/rangeos-04.png" alt="RangeOS 4" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-ros',4)"><img src="rangeos/rangeos-05.png" alt="RangeOS 5" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-ros',5)"><img src="rangeos/rangeos-06.png" alt="RangeOS 6" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-ros',6)"><img src="rangeos/rangeos-07.png" alt="RangeOS 7" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-ros',7)"><img src="rangeos/rangeos-08.png" alt="RangeOS 8" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-ros',8)"><img src="rangeos/rangeos-09.png" alt="RangeOS 9" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-ros',9)"><img src="rangeos/rangeos-10.png" alt="RangeOS 10" loading="lazy"><div class="ss-ov">⤢</div></div>
           </div>
         </div>
       </div>
 
-      <!-- Roman Vegan Cakes ERP -->
+      <!-- Slaščičarna ERP -->
       <div style="background:linear-gradient(135deg,var(--bg3) 0%,rgba(0,229,160,.03) 100%);border:1px solid rgba(0,229,160,.18);border-radius:var(--rl);padding:44px;margin-bottom:44px;position:relative;overflow:hidden">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--c2)"></div>
         <div style="position:relative;z-index:1">
@@ -1206,26 +1251,29 @@ html.lenis{height:auto}
             <span class="tag tag-g">Slaščičarna ERP</span>
             <span class="tag tag-b">Mala podjetja</span>
           </div>
-          <h2 style="font-family:var(--fd);font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-.02em;margin-bottom:7px">Roman Vegan Cakes <span style="color:var(--c2)">ERP</span></h2>
-          <p style="font-family:var(--fm);font-size:11px;color:var(--t2);letter-spacing:.1em;margin-bottom:18px">SISTEM ZA UPRAVLJANJE SLAŠČIČARNE</p>
-          <p style="font-size:15px;color:var(--t1);line-height:1.75;max-width:700px;margin-bottom:28px">Naročniški ERP sistem, razvit posebej za veganske slaščičarne — od upravljanja naročil in receptur do sledenja zalogam, terminov dostave in komunikacije s strankami. Dokaz, da principi industrijskega sistemskega razmišljanja delujejo enako dobro v majhnem, procesno odvisnem podjetju.</p>
+          <h2 style="font-family:var(--fd);font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-.02em;margin-bottom:7px">Program za <span style="color:var(--c2)">slaščičarno</span></h2>
+          <p style="font-family:var(--fm);font-size:11px;color:var(--t2);letter-spacing:.1em;margin-bottom:18px">OPERATIVNI SISTEM ZA UPRAVLJANJE SLAŠČIČARNE</p>
+          <p style="font-size:15px;color:var(--t1);line-height:1.75;max-width:700px;margin-bottom:28px">Celovit operativni sistem za slaščičarno — od sprejema naročila do dostave. Sistem vodi delovne naloge za vsak artikel posebej, ob zaključku naloga samodejno odšteje sestavine iz zaloge po recepturi, blagajna pa omogoča prodajo neposredno pri pultu. Vse je medsebojno povezano: naročilo ustvari nalog, nalog porabi zalogo, blagajna beleži prodajo.</p>
           <div class="g2" style="gap:22px">
             <div>
               <div class="lbl" style="color:var(--c2);margin-bottom:12px">Ključne funkcionalnosti</div>
               <ul class="spl">
-                <li>Upravljanje naročil z datumi dostave in statusi</li>
-                <li>Baza receptur z alergeni in sestavinami</li>
-                <li>Sledenje zalogam sestavin</li>
-                <li>Terminski načrt produkcije</li>
-                <li>Komunikacija s strankami (n8n avtomatizacija)</li>
-                <li>Google Sheets integracija</li>
-                <li>Google Calendar sinhronizacija</li>
+                <li>Naročila s stranko, datumom dostave, artikli in statusom</li>
+                <li>Delovni nalogi (produkcija) — aktivni, v delu, zaključeni</li>
+                <li>Recepture z ingrediencami in količinami na artikel</li>
+                <li>Zaloga sestavin z avtomatskim odštevanjem ob produkciji</li>
+                <li>Blagajna — prodaja pri pultu z izračunom zneska in računa</li>
+                <li>Terminski načrt produkcije (kalendarski prikaz)</li>
+                <li>Stranke / CRM — kontaktni podatki in история naročil</li>
+                <li>Dobavitelji in upravljanje nabave</li>
+                <li>Finance — pregled prihodkov, stroškov in marže po mesecih</li>
+                <li>Dostava in vitrine kot ločena distribucijska kanala</li>
               </ul>
             </div>
             <div>
-              <div class="lbl" style="color:var(--c2);margin-bottom:12px">Zakaj je to relevantno za vas</div>
+              <div class="lbl" style="color:var(--c2);margin-bottom:12px">Kako sistem deluje v praksi</div>
               <div class="hl" style="border-color:var(--c2)">
-                <p>Slaščičarna deluje po enakih principih kot industrijska proizvodnja: naročila → produkcija → kontrola kakovosti → dostava. Sistemi, ki razumejo ta tok, delujejo v obe smeri. Roman Vegan Cakes ERP je živ dokaz tega pristopa.</p>
+                <p>Stranka odda naročilo → sistem ustvari delovni nalog za vsak artikel → ob zaključku naloga se sestavine samodejno odštejejo iz zaloge → blagajna evidentira prodajo ali dostavo. Brez ročnega vodenja na papirju, brez podvojenih vnosov.</p>
               </div>
               <div style="margin-top:14px;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r)">
                 <div style="font-family:var(--fm);font-size:10px;color:var(--t2);margin-bottom:5px">TEHNOLOŠKI SKLAD</div>
@@ -1239,13 +1287,124 @@ html.lenis{height:auto}
               </div>
             </div>
           </div>
+
+          <!-- Posnetki zaslona -->
+          <div class="ss-lbl" style="margin-top:26px">Posnetki zaslona sistema</div>
+          <div class="ss-grid" id="ss-slc">
+            <div class="ss-thumb" onclick="openLB('ss-slc',0)"><img src="slascicarna/slascicarna-01.png" alt="Slaščičarna 1" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-slc',1)"><img src="slascicarna/slascicarna-02.png" alt="Slaščičarna 2" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-slc',2)"><img src="slascicarna/slascicarna-03.png" alt="Slaščičarna 3" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-slc',3)"><img src="slascicarna/slascicarna-04.png" alt="Slaščičarna 4" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-slc',4)"><img src="slascicarna/slascicarna-05.png" alt="Slaščičarna 5" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-slc',5)"><img src="slascicarna/slascicarna-06.png" alt="Slaščičarna 6" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-slc',6)"><img src="slascicarna/slascicarna-07.png" alt="Slaščičarna 7" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-slc',7)"><img src="slascicarna/slascicarna-08.png" alt="Slaščičarna 8" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-slc',8)"><img src="slascicarna/slascicarna-09.png" alt="Slaščičarna 9" loading="lazy"><div class="ss-ov">⤢</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Digitalni pregled povezav konektorjev -->
+      <div style="background:linear-gradient(135deg,var(--bg3) 0%,rgba(0,200,255,.04) 100%);border:1px solid rgba(0,200,255,.2);border-radius:var(--rl);padding:44px;margin-bottom:32px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--c0)"></div>
+        <div style="position:relative;z-index:1">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap">
+            <span class="tag tag-b">eVersum</span>
+            <span class="tag tag-b">QC Pregled</span>
+            <span class="tag tag-g">Kabelski snopi</span>
+          </div>
+          <h2 style="font-family:var(--fd);font-size:clamp(26px,3.5vw,44px);font-weight:800;letter-spacing:-.02em;margin-bottom:7px">Digitalni pregled <span style="color:var(--c0)">povezav konektorjev</span></h2>
+          <p style="font-family:var(--fm);font-size:11px;color:var(--t2);letter-spacing:.1em;margin-bottom:18px">DIGITALNI QC PREGLED KABELSKEGA SNOPA</p>
+          <p style="font-size:15px;color:var(--t1);line-height:1.75;max-width:700px;margin-bottom:28px">Konec papirnatih kontrolnih listov. Aplikacija nadomesti tiskane pin-out liste in ročno označevanje — operater naloži podatke o kabelskem snopu, program pa mu prikaže natančno, katero žico mora preveriti, kam gre in kakšne barve je. Ko je pregled končan, aplikacija sama ustvari PDF certifikat s podpisom preverjevalca, serijsko številko snopa in datumom pregleda.</p>
+          <div class="g2" style="gap:22px;margin-bottom:28px">
+            <div>
+              <div class="lbl" style="margin-bottom:12px">Ključne funkcionalnosti</div>
+              <ul class="spl">
+                <li>Vodeni pregled žica po žico z vizualnimi navodili</li>
+                <li>Potrditev vsake povezave s kljukico</li>
+                <li>Sproten prikaz napredka pregleda</li>
+                <li>Samodejno generiranje PDF QC certifikata</li>
+                <li>Certifikat vsebuje podpis, serijsko številko in datum</li>
+                <li>Uvoz podatkov kabelskega snopa (CSV / mapping)</li>
+              </ul>
+            </div>
+            <div>
+              <div class="lbl" style="margin-bottom:12px">Rezultat za podjetje</div>
+              <div class="hl">
+                <p>Manj napak, krajši čas pregleda, popolna sledljivost vsake preverjene enote. Vsak snop dokumentiran z enim klikom — pripravljen za arhiv ali stranko.</p>
+              </div>
+              <div style="margin-top:14px;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r)">
+                <div style="font-family:var(--fm);font-size:10px;color:var(--t2);margin-bottom:5px">PRIMERNO ZA</div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px">
+                  <span class="tag tag-b">Kabelski snopi</span>
+                  <span class="tag tag-g">Automotive QC</span>
+                  <span class="tag tag-o">Certifikacija</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ss-lbl">Posnetki zaslona aplikacije</div>
+          <div class="ss-grid" id="ss-dpk">
+            <div class="ss-thumb" onclick="openLB('ss-dpk',0)"><img src="eversum/ss2/eversum-digital-01.png" alt="Digitalni pregled 1" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-dpk',1)"><img src="eversum/ss2/eversum-digital-02.png" alt="Digitalni pregled 2" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-dpk',2)"><img src="eversum/ss2/eversum-digital-03.png" alt="Digitalni pregled 3" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-dpk',3)"><img src="eversum/ss2/eversum-digital-04.png" alt="Digitalni pregled 4" loading="lazy"><div class="ss-ov">⤢</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vizualni pregled konektorjev -->
+      <div style="background:linear-gradient(135deg,var(--bg3) 0%,rgba(249,115,22,.03) 100%);border:1px solid rgba(249,115,22,.2);border-radius:var(--rl);padding:44px;margin-bottom:44px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--c1)"></div>
+        <div style="position:relative;z-index:1">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap">
+            <span class="tag tag-o">eVersum</span>
+            <span class="tag tag-o">Vizualni pregled</span>
+            <span class="tag tag-g">Kabelski snopi</span>
+          </div>
+          <h2 style="font-family:var(--fd);font-size:clamp(26px,3.5vw,44px);font-weight:800;letter-spacing:-.02em;margin-bottom:7px">Vizualni pregled <span style="color:var(--c1)">konektorjev</span></h2>
+          <p style="font-family:var(--fm);font-size:11px;color:var(--t2);letter-spacing:.1em;margin-bottom:18px">FOTO VODENI PREGLED KONEKTORJEV V SNOPU</p>
+          <p style="font-size:15px;color:var(--t1);line-height:1.75;max-width:700px;margin-bottom:28px">Pravi konektor, na pravem mestu, pravilno zapičen — vsak enkrat. Aplikacija operaterju za vsak konektor prikaže fotografijo, tip in opis — točno tisto, kar mora videti pred seboj. Pregled je hiter, vizualen in ne zahteva izkušenega tehnika. Ob zaključku se samodejno ustvari certifikat pregleda z natančnim statusom vsakega konektorja.</p>
+          <div class="g2" style="gap:22px;margin-bottom:28px">
+            <div>
+              <div class="lbl" style="color:var(--c1);margin-bottom:12px">Ključne funkcionalnosti</div>
+              <ul class="spl">
+                <li>Prikaz fotografije za vsak konektor posebej</li>
+                <li>Tip konektorja, EV številka in opis ob vsaki sliki</li>
+                <li>Potrditev vsakega konektorja z enim klikom</li>
+                <li>Sproten štetec pregledanih konektorjev</li>
+                <li>Samodejno generiranje certifikata ob zaključku</li>
+                <li>Beleženje napak s tipi, opisi in statusom</li>
+              </ul>
+            </div>
+            <div>
+              <div class="lbl" style="color:var(--c1);margin-bottom:12px">Rezultat za podjetje</div>
+              <div class="hl" style="border-color:var(--c1)">
+                <p>Manj napak pri montaži, hitrejše uvajanje novih operaterjev, dokumentiran dokaz kakovosti za vsak kos. Izkušen tehnik ni pogoj — aplikacija vodi vsakogar.</p>
+              </div>
+              <div style="margin-top:14px;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r)">
+                <div style="font-family:var(--fm);font-size:10px;color:var(--t2);margin-bottom:5px">PRIMERNO ZA</div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px">
+                  <span class="tag tag-o">Montaža snopov</span>
+                  <span class="tag tag-g">Uvajanje operaterjev</span>
+                  <span class="tag tag-b">Reklamacije</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ss-lbl" style="margin-top:8px">Posnetki zaslona aplikacije</div>
+          <div class="ss-grid" id="ss-vpk">
+            <div class="ss-thumb" onclick="openLB('ss-vpk',0)"><img src="eversum/visual/eversum-visual-01.png" alt="Vizualni pregled 1" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-vpk',1)"><img src="eversum/visual/eversum-visual-02.png" alt="Vizualni pregled 2" loading="lazy"><div class="ss-ov">⤢</div></div>
+            <div class="ss-thumb" onclick="openLB('ss-vpk',2)"><img src="eversum/visual/eversum-visual-03.png" alt="Vizualni pregled 3" loading="lazy"><div class="ss-ov">⤢</div></div>
+          </div>
         </div>
       </div>
 
       <!-- CTA -->
       <div class="ctab">
         <h2 class="ctab-h">Vidite potencial<br><span style="color:var(--c0)">za vaš proces?</span></h2>
-        <p class="ctab-s">Oba sistema sta nastala iz resničnih operativnih potreb. Enako velja za vsak sistem, ki ga zgradimo za vas.</p>
+        <p class="ctab-s">Vsi sistemi so nastali iz resničnih operativnih potreb. Enako velja za vsak sistem, ki ga zgradimo za vas.</p>
         <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
           <button class="btn btn-p" onclick="P('contact')">Pogovorimo se o vašem projektu</button>
           <button class="btn btn-o" onclick="P('sw')">Raziščite RangeOS</button>
@@ -1750,6 +1909,51 @@ window.addEventListener('scroll',()=>{
   document.getElementById('nav').classList.toggle('s', window.scrollY>30);
 });
 
+// ===================== LIGHTBOX =====================
+(function(){
+  var imgs=[],cur=0;
+  function show(i){
+    cur=(i+imgs.length)%imgs.length;
+    document.getElementById('lb-img').src=imgs[cur];
+    document.getElementById('lb-info').textContent=(cur+1)+' / '+imgs.length;
+  }
+  window.openLB=function(gridId,idx){
+    var g=document.getElementById(gridId);
+    imgs=Array.from(g.querySelectorAll('img')).map(function(i){return i.src;});
+    document.getElementById('lb').classList.add('on');
+    document.body.style.overflow='hidden';
+    show(idx);
+  };
+  window.addEventListener('load',function(){
+    document.getElementById('lb-close').onclick=function(){
+      document.getElementById('lb').classList.remove('on');
+      document.body.style.overflow='';
+    };
+    document.getElementById('lb-prev').onclick=function(){show(cur-1);};
+    document.getElementById('lb-next').onclick=function(){show(cur+1);};
+    document.getElementById('lb').addEventListener('click',function(e){
+      if(e.target===this){this.classList.remove('on');document.body.style.overflow='';}
+    });
+  });
+  document.addEventListener('keydown',function(e){
+    var lb=document.getElementById('lb');
+    if(!lb.classList.contains('on'))return;
+    if(e.key==='Escape'){lb.classList.remove('on');document.body.style.overflow='';}
+    if(e.key==='ArrowLeft')show(cur-1);
+    if(e.key==='ArrowRight')show(cur+1);
+  });
+})();
+
 </script>
+
+<!-- LIGHTBOX MODAL -->
+<div id="lb">
+  <img id="lb-img" src="" alt="">
+  <button id="lb-close">✕</button>
+  <button id="lb-prev">&#8249;</button>
+  <button id="lb-next">&#8250;</button>
+  <div id="lb-info"></div>
+</div>
+
 </body>
 </html>
